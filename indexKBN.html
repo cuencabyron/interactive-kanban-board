@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+===============================================================================
+ TABLERO KANBAN INTERACTIVO
+ ------------------------------------------------------------------------------
+ Descripción:
+ - Define la estructura base del tablero Kanban.
+ - Conecta los estilos (CSS/SCSS compilado) y la lógica (JavaScript).
+ - Contiene el formulario de creación de tickets y las columnas del flujo Kanban.
+===============================================================================
+-->
+<html lang="es">
+<head>
+  <!-- =====================================================
+       METADATOS BÁSICOS
+       ===================================================== -->
+
+  <!-- Codificación de caracteres -->
+  <meta charset="UTF-8">
+
+  <!-- Responsive design: adapta el layout a dispositivos móviles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Título de la pestaña del navegador -->
+  <title>Kanban</title>
+
+  <!-- Hoja de estilos principal (CSS generado desde SCSS) -->
+  <link rel="stylesheet" href="stylesKBN.css">
+
+  <!-- Favicon del proyecto -->
+  <!-- Nota: aquí puedes colocar un icono real en /assets -->
+  <link rel="icon" type="image/png" sizes="24x24" href="assets/.png">
+</head>
+
+<body>
+  <!-- =====================================================
+       ENCABEZADO PRINCIPAL
+       ===================================================== -->
+
+  <!-- Título visible del tablero -->
+  <h1>Tablero Kanban Interactivo</h1>
+
+  <!-- Botón para cambiar a modo oscuro -->
+  <button id="darkModeToggle">
+    🌙 Modo Oscuro
+  </button>
+
+
+  <!-- =====================================================
+       FORMULARIO DE CREACIÓN Y FILTRADO DE TICKETS
+       ===================================================== -->
+  <div class="form-container">
+
+    <!-- Campo de texto para el título del ticket -->
+    <input 
+      type="text" 
+      id="titulo" 
+      placeholder="Título del ticket"
+    >
+
+    <!-- Selector de prioridad del ticket -->
+    <select id="prioridad">
+      <option value="Alta">Alta</option>
+      <option value="Media">Media</option>
+      <option value="Baja">Baja</option>
+    </select>
+
+    <!-- Botón para crear un nuevo ticket -->
+    <!-- Llama a la función crearTicket() en JavaScript -->
+    <button onclick="crearTicket()">
+      ➕ Crear Ticket
+    </button>
+
+    <!-- Selector para filtrar tickets por prioridad -->
+    <!-- Dispara la función aplicarFiltro() al cambiar -->
+    <select id="filtro" onchange="aplicarFiltro()">
+      <option value="Todos">Filtrar: Todos</option>
+      <option value="Alta">Alta</option>
+      <option value="Media">Media</option>
+      <option value="Baja">Baja</option>
+    </select>
+  </div>
+
+  <!-- =====================================================
+       TABLERO KANBAN
+       ===================================================== -->
+  <div class="kanban">
+
+    <!-- -------------------------
+         COLUMNA: TO DO
+         -------------------------
+         - Estado inicial de los tickets
+         - Aquí se crean automáticamente los nuevos tickets
+    -->
+    <div class="column" id="todo">
+      <h2>📝 To Do (0)</h2>
+    </div>
+
+    <!-- -------------------------
+         COLUMNA: IN PROGRESS
+         -------------------------
+         - Tickets en proceso
+         - Tiene una restricción máxima de 5 tickets
+    -->
+    <div class="column" id="inprogress">
+      <h2>⚙️ In Progress (0)</h2>
+
+      <!-- Mensaje visual cuando se alcanza el límite -->
+      <!-- Se muestra y oculta dinámicamente con JavaScript -->
+      <div class="limit-message" id="limitMessage">
+        ⚠️ Límite alcanzado: 5 tickets
+      </div>
+    </div>
+
+    <!-- -------------------------
+         COLUMNA: DONE
+         -------------------------
+         - Tickets completados
+         - No se permite regresar directamente a To Do
+    -->
+    <div class="column" id="done">
+      <h2>✅ Done (0)</h2>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       BOTÓN DE ACCIÓN GLOBAL
+       ===================================================== -->
+
+  <!-- Botón para borrar todo el tablero -->
+  <!-- Incluye validación y confirmación personalizada -->
+  <button id="clearBoardBtn" onclick="borrarTodo()">
+    🗑️ Borrar Todo
+  </button>
+
+  <!-- =====================================================
+       SCRIPT PRINCIPAL
+       ===================================================== -->
+
+  <!-- Archivo JavaScript con toda la lógica del Kanban -->
+  <script src="mainKBN.js"></script>
+</body>
+</html>

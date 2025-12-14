@@ -1,0 +1,292 @@
+/* ==========================================================================
+   ESTILOS GLOBALES
+   --------------------------------------------------------------------------
+   Se definen estilos base para garantizar consistencia visual
+   y una apariencia limpia en todo el tablero Kanban.
+   ========================================================================== */
+
+body {
+  font-family: Arial, sans-serif; /* Fuente legible y estándar */
+  background: #f4f6f8;           /* Fondo neutro para resaltar el tablero */
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;            /* Centra el título principal */
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   CONTENEDOR PRINCIPAL DEL KANBAN
+   --------------------------------------------------------------------------
+   Usa Flexbox para distribuir las columnas de forma horizontal
+   y mantenerlas centradas independientemente del tamaño de pantalla.
+   ========================================================================== */
+
+.kanban {
+  display: flex;
+  gap: 20px;                     /* Espacio uniforme entre columnas */
+  justify-content: center;
+}
+
+/* ==========================================================================
+   COLUMNAS DEL TABLERO
+   --------------------------------------------------------------------------
+   Cada columna representa un estado del flujo Kanban.
+   Se usa position: relative para permitir overlays internos
+   (mensajes, advertencias, etc.).
+   ========================================================================== */
+
+.column {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;            /* Bordes suaves para UI moderna */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  min-height: 300px;             /* Mantiene altura mínima aun sin tickets */
+  position: relative;
+}
+
+.column h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ==========================================================================
+   TICKETS
+   --------------------------------------------------------------------------
+   Representan tareas individuales.
+   El cursor "grab" comunica claramente que son arrastrables.
+   ========================================================================== */
+
+.ticket {
+  background: #e8eef7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border-left: 5px solid #007bff; /* Indicador visual de ticket */
+  cursor: grab;
+  position: relative;            /* Necesario para el botón de eliminar */
+}
+
+.ticket p {
+  margin: 5px 0;
+}
+
+/* Botón para eliminar tickets individuales */
+.ticket .delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* ==========================================================================
+   PRIORIDADES
+   --------------------------------------------------------------------------
+   Se usan colores semánticos para comunicar urgencia visualmente.
+   ========================================================================== */
+
+.priority {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.priority-alta {
+  color: #fff;
+  background: #d9534f;           /* Rojo: alta urgencia */
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.priority-media {
+  color: #000;
+  background: #f0ad4e;           /* Amarillo: urgencia media */
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.priority-baja {
+  color: #fff;
+  background: #5cb85c;           /* Verde: baja urgencia */
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   DRAG & DROP – FEEDBACK VISUAL
+   --------------------------------------------------------------------------
+   Se aplica cuando una columna es destino válido durante el arrastre.
+   ========================================================================== */
+
+.highlight {
+  background: #d1ecf1;
+  border: 2px dashed #007bff;
+}
+
+/* ==========================================================================
+   MENSAJE DE LÍMITE (WIP LIMIT)
+   --------------------------------------------------------------------------
+   Mensaje flotante que indica que se alcanzó el máximo
+   de tickets permitidos en "In Progress".
+   ========================================================================== */
+
+.limit-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  display: none;                 /* Se controla por JS */
+}
+
+/* ==========================================================================
+   FORMULARIO DE CREACIÓN Y FILTRO
+   --------------------------------------------------------------------------
+   Centraliza la interacción principal del usuario.
+   ========================================================================== */
+
+.form-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Estilos unificados para inputs, selects y botones */
+input,
+select,
+button {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background: #0056b3;           /* Feedback visual en hover */
+}
+
+/* ==========================================================================
+   MENSAJES AUXILIARES
+   --------------------------------------------------------------------------
+   Usados para advertencias internas del tablero.
+   ========================================================================== */
+
+.mensaje-limite {
+  background: #ffc107;
+  color: #000;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  z-index: 10;
+  position: relative;
+}
+
+/* ==========================================================================
+   BOTÓN DE LIMPIEZA DEL TABLERO
+   --------------------------------------------------------------------------
+   Se posiciona de forma independiente debajo del Kanban
+   para evitar interferir con el flujo principal.
+   ========================================================================== */
+
+#clearBoardBtn {
+  position: relative;
+  display: block;
+  margin: 20px auto 0 auto;      /* Centrado horizontal */
+}
+
+/* ==========================================================================
+   DARK MODE
+   Se activa cuando el body tiene la clase .dark
+   ========================================================================== */
+
+body.dark {
+  background: #1e1e1e;
+  color: #f1f1f1;
+}
+
+/* Columnas */
+body.dark .column {
+  background: #2b2b2b;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Tickets */
+body.dark .ticket {
+  background: #3a3a3a;
+  border-left-color: #4dabf7;
+}
+
+/* Formularios */
+body.dark input,
+body.dark select {
+  background: #2b2b2b;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+/* Botones */
+body.dark button {
+  background: #4dabf7;
+}
+
+body.dark button:hover {
+  background: #339af0;
+}
+
+/* Mensajes */
+body.dark .limit-message {
+  background: #842029;
+  color: #fff;
+}
+
+/* ==========================================================
+   BOTÓN MODO OSCURO – POSICIÓN SUPERIOR DERECHA
+   ========================================================== */
+
+#darkModeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 3000;
+}
+
+/* =========================================================
+   FIX MODAL CONFIRMACIÓN – DARK MODE
+   ========================================================= */
+
+body.dark #customConfirm {
+  background: #2b2b2b !important;
+  color: #ffffff !important;
+}
+
+body.dark #customConfirm p {
+  color: #ffffff !important;
+}
+
+body.dark #customConfirm button {
+  color: #ffffff !important;
+}
