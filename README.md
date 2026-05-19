@@ -1,79 +1,79 @@
-<h1 align="center">Tablero Kanban Interactivo</h1>
+<h1 align="center">Interactive Kanban Board</h1>
 
+An interactive board based on the *Kanban* agile methodology, fully developed with **HTML, CSS, and Vanilla JavaScript**.
+It allows users to manage tasks visually and dynamically while demonstrating DOM manipulation, event handling, business logic, and data persistence using **LocalStorage**.
 
-Un tablero basandose en la metodología agil *Kanban* totalmente interactivo desarrollado con **HTML, CSS y JavaScript puro**, que permite gestionar tareas de forma visual dinámica, asi como tambien enfocado en demostrar el manejo del DOM, eventos, lógica de negocio y persistencia con **LocalStorage**..
-Este proyecto está diseñado para mostrar habilidades de desarrollo frontend sin depender de frameworks o librerias.
-
----
-
-## Descripción General
-
-El Tablero Kanban permite gestionar tareas (tickets) a través de tres estados:
-
-- **To Do** – tareas pendientes
-- **In Progress** – tareas en proceso
-- **Done** – tareas completadas
-
-Cada ticket cuenta con:
-- Título
-- Prioridad (Alta, Media, Baja)
-- Identificador único
-
-El tablero incluye restricciones y validaciones para simular un flujo de trabajo real.
+This project was designed to showcase frontend development skills without relying on frameworks or external libraries.
 
 ---
 
-## Funcionalidades Principales
+## General Description
 
-### Creación de tickets
-- El usuario puede crear tickets desde el formulario superior.
-- Es obligatorio ingresar un título.
-- Los tickets siempre se crean en la columna **To Do**.
+The Interactive Kanban Board allows task management through three workflow states:
 
-### Prioridades
-- Cada ticket tiene una prioridad visual:
-  - 🔴 Alta
-  - 🟡 Media
-  - 🟢 Baja
+- **To Do** – pending tasks.
+- **In Progress** – tasks currently being worked on.
+- **Done** – completed tasks.
+
+Each ticket includes:
+- Title
+- Priority (High, Medium, Low)
+- Unique identifier
+
+The board also includes validations and restrictions to simulate a real-world workflow environment.
+
+---
+
+## Main Features
+
+### Ticket Creation
+- Users can create tickets from the top form.
+- A title is required before creating a ticket.
+- New tickets are always added to the **To Do** column.
+
+### Priorities
+Each ticket has a visual priority indicator:
+- 🔴 High
+- 🟡 Medium
+- 🟢 Low
 
 ### Drag & Drop
-- Los tickets se pueden arrastrar entre columnas.
-- Restricciones implementadas:
-  - No se puede mover directamente de **To Do → Done**.
-  - No se puede regresar de **Done → To Do**.
-  - La columna **In Progress** tiene un límite de **5 tickets**, para no acumular pendientes y terminar los que ya estaban.
+- Tickets can be dragged between columns.
+- Implemented restrictions:
+  - Tickets cannot move directly from **To Do → Done**.
+  - Tickets cannot move back from **Done → To Do**.
+  - The **In Progress** column has a maximum limit of **5 tickets** to avoid task overload and encourage task completion.
 
-### Filtro por prioridad
-- Permite mostrar solo tickets según su prioridad.
-- No elimina información, solo cambia la visibilidad.
+### Priority Filter
+- Allows users to display tickets based on their priority.
+- It only changes visibility and does not remove data.
 
-### Contadores automáticos
-- Cada columna muestra dinámicamente el número de tickets que contiene.
+### Automatic Counters
+Each column dynamically displays the number of tickets it contains.
 
-### Persistencia con LocalStorage
-- Uso de **LocalStorage** para:
-  - Guardar todos los tickets.
-  - Mantener su estado y columna.
-  - Conservar el contador de tickets.
-- Los datos se restauran automáticamente al recargar la página.
+### LocalStorage Persistence
+- Uses **LocalStorage** to:
+  - Save all tickets.
+  - Preserve their current state and column.
+  - Keep the ticket counter persistent.
+  - Automatically restore data after page reload.
 
-### Borrado del tablero
-- Botón **“Borrar Todo”** con validaciones:
-- Validaciones:
-  - Si el tablero está vacío, se muestra advertencia.
-  - Si hay tickets, se solicita confirmación personalizada.
-- Limpia el tablero y el LocalStorage de forma segura.
+### Board Reset
+- Includes a **“Clear Board”** button with validations:
+  - If the board is empty, a warning message is displayed.
+  - If tickets exist, a custom confirmation dialog appears.
+- Safely clears both the board and LocalStorage data.
 
-### Modo Oscuro (Dark Mode)
-- Activación/desactivación mediante botón tipo switch.
-- Preferencia guardada en **LocalStorage**.
-- El modo seleccionado se mantiene al recargar la página.
-- Implementado sin duplicar estilos ni romper el diseño original.
+### Dark Mode
+- Toggleable through a custom switch button.
+- User preference is saved in **LocalStorage**.
+- The selected mode remains active after reloading the page.
+- Implemented without duplicating styles or breaking the original layout.  
 
-### Mensajes personalizados
-- Advertencias visuales con animación *fade in / fade out*.
-- Confirmaciones personalizadas en lugar de `confirm()` del navegador.
-- Mejor experiencia de usuario (UX).
+### Custom Messages
+- Visual warning messages with *fade in / fade out* animations.
+- Custom confirmation dialogs instead of the browser’s default `confirm()`.
+- Improved user experience (UX).
 
 ---
 
@@ -103,49 +103,44 @@ Este flujo simula buenas prácticas reales de metodologías ágiles.
 
 ---
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 /interactive-kanban-board
 │
-├── index.html     # Estructura principal
-├── styles.css     # Estilos del tablero
-├── main.js        # Lógica del Kanban
-├── assets/        # Iconos o recursos
-└── README.md      # Documentación del proyecto
-└── LICENCE        # Defince las reglas legales del uso
+├── assets/        # Icons and resources
+├── index.html     # Main structure
+├── styles.css     # Board styling
+├── main.js        # Kanban logic
+├── README.md      # Project documentation
+└── LICENSE        # Legal usage rules
 ```
+---
+
+## Example Tickets
+- "Implement JWT login"
+- "Fix registration form bug"
+- "Design user profile view"
+- "Optimize database queries"
+- "Add form validations"
 
 ---
 
-## Ejemplos de Tickets
-
-- "Implementar login con JWT"
-- "Corregir bug en formulario de registro"
-- "Diseñar vista de perfil de usuario"
-- "Optimizar consultas a la base de datos"
-- "Agregar validaciones al formulario"
-
+## Project Purpose
+This project was created for:
+- Practicing Vanilla JavaScript
+- Demonstrating business logic implementation
+- Building a professional portfolio
+- Simulating a real-world workflow environment
 ---
 
-## Objetivo del Proyecto
-
-Este proyecto fue creado con fines de:
-- Práctica de JavaScript puro
-- Demostración de lógica de negocio
-- Portafolio profesional
-- Simulación de un entorno real de trabajo
-
----
-
-## Vista previa
+## Preview
 <div align="center">
   <img src="assets/board-kanban.png" width="600" alt="Tablero Kanban Intercativo"/>
 </div>
 
 ---
 
-## Autor
-
+## Author
 *Desarrollado por Byron Jorge Ortega Cuenca*
 *Si te gusto este proyecto, !no olvides en dejar una ⭐ en el repositorio¡.*
