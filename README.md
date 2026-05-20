@@ -77,29 +77,27 @@ Each column dynamically displays the number of tickets it contains.
 
 ---
 
-## Flujo de Trabajo Kanban
+## Kanban Workflow
+1. The user creates a ticket in **To Do**.
+2. The ticket moves to **In Progress** once work begins.
+3. Only then can it move to **Done**.
+4. The system prevents invalid workflow transitions.
 
-1. El usuario crea un ticket en **To Do**.
-2. El ticket pasa a **In Progress** cuando se comienza a trabajar.
-3. Solo después puede moverse a **Done**.
-4. El sistema impide saltos de estado incorrectos.
-
-Este flujo simula buenas prácticas reales de metodologías ágiles.
+This workflow simulates real agile methodology practices.
 
 ---
 
-## Tecnologías Utilizadas
-
+## Technologies Used
 - **HTML5**
-  - Estructura semántica del tablero.
-- **CSS3** 
- - Diseño visual, estados, mensajes, animaciones y Dark Mode.
+   -Semantic structure of the board.
+- **CSS3**
+  - Visual design, states, animations, messages, and Dark Mode.
 - **JavaScript (Vanilla)**
-  - Manipulación del DOM.
-  - Drag & Drop.
-  - Validaciones de negocio.
-- **LocalStorage** 
-  – Persistencia de datos
+  - DOM manipulation.
+  - Drag & Drop functionality.
+  - Business logic validations.
+- **LocalStorage**
+  - Data persistence.
 
 ---
 
@@ -142,5 +140,4 @@ This project was created for:
 ---
 
 ## Author
-*Desarrollado por Byron Jorge Ortega Cuenca*
-*Si te gusto este proyecto, !no olvides en dejar una ⭐ en el repositorio¡.*
+*Developed by Byron Jorge Ortega Cuenca*
