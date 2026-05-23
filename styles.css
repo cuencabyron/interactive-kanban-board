@@ -1,174 +1,47 @@
-/* ==========================================================================
-   ESTILOS GLOBALES
-   --------------------------------------------------------------------------
-   Se definen estilos base para garantizar consistencia visual
-   y una apariencia limpia en todo el tablero Kanban.
-   ========================================================================== */
-
+/* =========================
+   RESET & BASE
+========================= */
 body {
-  font-family: Arial, sans-serif; /* Fuente legible y estándar */
-  background: #f4f6f8;           /* Fondo neutro para resaltar el tablero */
+  font-family: Arial, sans-serif; 
+  background: #f4f6f8;           
   margin: 0;
   padding: 20px;
 }
 
 h1 {
-  text-align: center;            /* Centra el título principal */
+  text-align: center;            
   margin-bottom: 20px;
 }
 
-/* ==========================================================================
-   CONTENEDOR PRINCIPAL DEL KANBAN
-   --------------------------------------------------------------------------
-   Usa Flexbox para distribuir las columnas de forma horizontal
-   y mantenerlas centradas independientemente del tamaño de pantalla.
-   ========================================================================== */
-
-.kanban {
+/* =========================
+   HEADER
+========================= */
+.header {
   display: flex;
-  gap: 20px;                     /* Espacio uniforme entre columnas */
   justify-content: center;
-}
-
-/* ==========================================================================
-   COLUMNAS DEL TABLERO
-   --------------------------------------------------------------------------
-   Cada columna representa un estado del flujo Kanban.
-   Se usa position: relative para permitir overlays internos
-   (mensajes, advertencias, etc.).
-   ========================================================================== */
-
-.column {
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;            /* Bordes suaves para UI moderna */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  min-height: 300px;             /* Mantiene altura mínima aun sin tickets */
-  position: relative;
-}
-
-.column h2 {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-/* ==========================================================================
-   TICKETS
-   --------------------------------------------------------------------------
-   Representan tareas individuales.
-   El cursor "grab" comunica claramente que son arrastrables.
-   ========================================================================== */
-
-.ticket {
-  background: #e8eef7;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border-left: 5px solid #007bff; /* Indicador visual de ticket */
-  cursor: grab;
-  position: relative;            /* Necesario para el botón de eliminar */
-}
-
-.ticket p {
-  margin: 5px 0;
-}
-
-/* Botón para eliminar tickets individuales */
-.ticket .delete-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: #d9534f;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  position: relative;
+  margin-bottom: 20px;
 }
 
-/* ==========================================================================
-   PRIORIDADES
-   --------------------------------------------------------------------------
-   Se usan colores semánticos para comunicar urgencia visualmente.
-   ========================================================================== */
-
-.priority {
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.priority-alta {
-  color: #fff;
-  background: #d9534f;           /* Rojo: alta urgencia */
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.priority-media {
-  color: #000;
-  background: #f0ad4e;           /* Amarillo: urgencia media */
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.priority-baja {
-  color: #fff;
-  background: #5cb85c;           /* Verde: baja urgencia */
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-/* ==========================================================================
-   DRAG & DROP – FEEDBACK VISUAL
-   --------------------------------------------------------------------------
-   Se aplica cuando una columna es destino válido durante el arrastre.
-   ========================================================================== */
-
-.highlight {
-  background: #d1ecf1;
-  border: 2px dashed #007bff;
-}
-
-/* ==========================================================================
-   MENSAJE DE LÍMITE (WIP LIMIT)
-   --------------------------------------------------------------------------
-   Mensaje flotante que indica que se alcanzó el máximo
-   de tickets permitidos en "In Progress".
-   ========================================================================== */
-
-.limit-message {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border: 1px solid #f5c6cb;
-  border-radius: 6px;
+.header h1 {
   text-align: center;
-  font-weight: bold;
-  display: none;                 /* Se controla por JS */
+  margin: 0;
 }
 
-/* ==========================================================================
-   FORMULARIO DE CREACIÓN Y FILTRO
-   --------------------------------------------------------------------------
-   Centraliza la interacción principal del usuario.
-   ========================================================================== */
+#darkModeToggle {
+  position: absolute;
+  right: 0;
+}
 
+/* =========================
+   FORM CONTROLS
+========================= */
 .form-container {
   text-align: center;
   margin-bottom: 30px;
 }
 
-/* Estilos unificados para inputs, selects y botones */
 input,
 select,
 button {
@@ -186,14 +59,154 @@ button {
 }
 
 button:hover {
-  background: #0056b3;           /* Feedback visual en hover */
+  background: #0056b3;           
 }
 
-/* ==========================================================================
-   MENSAJES AUXILIARES
-   --------------------------------------------------------------------------
-   Usados para advertencias internas del tablero.
-   ========================================================================== */
+.btn-crear {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-crear:hover {
+   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.btn-crear i {
+  font-size: 16px;
+}
+
+/* =========================
+   KANBAN BOARD
+========================= */
+.kanban {
+  display: flex;
+  gap: 20px;                     
+  justify-content: center;
+}
+
+.column {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;            
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  min-height: 300px;             
+  position: relative;
+}
+
+.column h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+.kanban::-webkit-scrollbar {
+  display: none;
+}
+
+.kanban {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =========================
+   TICKETS
+========================= */
+.ticket {
+  background: #e8eef7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border-left: 5px solid #007bff; 
+  cursor: grab;
+  position: relative;           
+}
+
+.ticket p {
+  margin: 5px 0;
+}
+
+.ticket .delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight {
+  background: #d1ecf1;
+  border: 2px dashed #007bff;
+}
+
+/* =========================
+   PRIORITIES
+========================= */
+.priority {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.priority-alta {
+  color: #fff;
+  background: #d9534f;       
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.priority-media {
+  color: #000;
+  background: #f0ad4e;          
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.priority-baja {
+  color: #fff;
+  background: #5cb85c;          
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* =========================
+   ALERTS & STATES
+========================= */
+.limit-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  display: none;                
+}
 
 .mensaje-limite {
   background: #ffc107;
@@ -208,36 +221,24 @@ button:hover {
   position: relative;
 }
 
-/* ==========================================================================
-   BOTÓN DE LIMPIEZA DEL TABLERO
-   --------------------------------------------------------------------------
-   Se posiciona de forma independiente debajo del Kanban
-   para evitar interferir con el flujo principal.
-   ========================================================================== */
-
-/* ==========================================================================
+/* =========================
    DARK MODE
-   Se activa cuando el body tiene la clase .dark
-   ========================================================================== */
-
+========================= */
 body.dark {
   background: #1e1e1e;
   color: #f1f1f1;
 }
 
-/* Columnas */
 body.dark .column {
   background: #2b2b2b;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
-/* Tickets */
 body.dark .ticket {
   background: #3a3a3a;
   border-left-color: #4dabf7;
 }
 
-/* Formularios */
 body.dark input,
 body.dark select {
   background: #2b2b2b;
@@ -245,7 +246,6 @@ body.dark select {
   border: 1px solid #555;
 }
 
-/* Botones */
 body.dark button {
   background: #4dabf7;
 }
@@ -254,38 +254,10 @@ body.dark button:hover {
   background: #339af0;
 }
 
-/* Mensajes */
 body.dark .limit-message {
   background: #842029;
   color: #fff;
 }
-
-/* =========================
-   HEADER RESPONSIVE
-========================= */
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.header h1 {
-  text-align: center;
-  margin: 0;
-}
-
-/* Desktop */
-#darkModeToggle {
-  position: absolute;
-  right: 0;
-}
-
-/* =========================================================
-   FIX MODAL CONFIRMACIÓN DARK MODE
-   ========================================================= */
 
 body.dark #customConfirm {
   background: #2b2b2b !important;
@@ -300,28 +272,29 @@ body.dark #customConfirm button {
   color: #ffffff !important;
 }
 
+body.dark .btn-crear {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+}
+
+/* =========================
+   FLOATING ACTION BUTTON
+========================= */
 #clearBoardBtn {
   position: fixed;
   bottom: 30px;
   right: 30px;
-
   width: 60px;
   height: 60px;
   border-radius: 50%;
-
   background: #dc3545;
   color: white;
   border: none;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 22px;
   cursor: pointer;
-
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-
   opacity: 0;                
   pointer-events: none;     
   transition: opacity 0.3s ease;  
@@ -333,8 +306,116 @@ body.dark #customConfirm button {
   box-shadow: 0 0 15px rgba(220, 53, 69, 0.6);
 }
 
-@media (max-width: 768px) {
+/* =========================
+   DARK MODE SWITCH
+========================= */
+.switch {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  width: 70px;   
+  height: 34px;  
+}
 
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #2b2b2b;
+  border-radius: 50px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  top: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px; 
+  color: white;
+  opacity: 0.6;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+.moon {
+  left: 10px;
+  opacity: 1;
+}
+
+.sun {
+  right: 10px;
+  opacity: 0;
+}
+
+input:checked + .slider {
+  background-color: #2b2b2b;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+}
+
+input:checked + .slider::before {
+  transform: translateX(45px); 
+}
+
+body.dark .moon {
+  color: #ffffff;
+  opacity: 1;
+}
+
+body.dark .sun {
+  color: #ffffff;
+  opacity: 0.3;
+}
+
+body:not(.dark) .sun {
+  color: #f59e0b; 
+  opacity: 1;
+}
+
+body:not(.dark) .moon {
+  color: #555;
+  opacity: 0.3;
+}
+
+body:not(.dark) .slider {
+  background-color: #ddd;
+}
+
+input:checked + .slider .moon {
+  opacity: 0;
+}
+
+input:checked + .slider .sun {
+  opacity: 1;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+/* MOBILE KANBAN */
+@media (max-width: 768px) {
   .kanban {
     display: flex;
     gap: 16px;
@@ -352,15 +433,7 @@ body.dark #customConfirm button {
 
 }
 
-.kanban::-webkit-scrollbar {
-  display: none;
-}
-
-.kanban {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
+/* MOBILE FAB */
 @media (max-width: 768px) {
   #clearBoardBtn {
     width: 55px;
@@ -371,201 +444,22 @@ body.dark #customConfirm button {
   }
 }
 
+/* MOBILE HEADER */
 @media (max-width: 600px) {
-  #darkModeToggle {
-    top: 70px;
-  }
-}
-
-@media (max-width: 600px) {
-
   .header {
     flex-direction: column;
     gap: 10px;
   }
-
   #darkModeToggle {
     position: static;
   }
-
 }
 
-/* =========================
-   SWITCH MODO OSCURO
-========================= */
-
-.switch {
-  position: absolute;
-  right: 20px;
-  top: 0;
-
-  width: 70px;   /*  MÁS ANCHO */
-  height: 34px;  /*  MÁS ALTO */
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: #2b2b2b;
-  border-radius: 50px;
-  transition: 0.3s;
-}
-
-/* Bolita */
-.slider::before {
-  content: "";
-  position: absolute;
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  top: 4px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.3s;
-  z-index: 2;
-}
-
-/* ICONOS */
-.icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px; /* más grandes */
-  color: white;
-  opacity: 0.6;
-}
-
-/* Luna izquierda */
-.moon {
-  left: 10px;
-}
-
-/* Sol derecha */
-.sun {
-  right: 10px;
-}
-
-/* Estado activo */
-input:checked + .slider {
-  background-color: #2b2b2b;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
-}
-
-/* Movimiento */
-input:checked + .slider::before {
-  transform: translateX(45px); /* proporcional al nuevo tamaño */
-}
-
-/* modo oscuro */
-body.dark .moon {
-  color: #ffffff;
-  opacity: 1;
-}
-
-body.dark .sun {
-  color: #ffffff;
-  opacity: 0.3;
-}
-
-/* modo claro */
-body:not(.dark) .sun {
-  color: #f59e0b; /* amarillo visible */
-  opacity: 1;
-}
-
-body:not(.dark) .moon {
-  color: #555;
-  opacity: 0.3;
-}
-
-body:not(.dark) .slider {
-  background-color: #ddd;
-}
-
-/* ICONOS DEL SWITCH */
-.slider {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 5px;
-}
-
-.icon {
-  font-size: 12px;
-  z-index: 2;
-  color: white;
-  transition: opacity 0.3s ease;
-}
-
-/* Estado inicial */
-.moon {
-  opacity: 1;
-}
-
-.sun {
-  opacity: 0;
-}
-
-/* Cuando está activado (modo claro) */
-input:checked + .slider .moon {
-  opacity: 0;
-}
-
-input:checked + .slider .sun {
-  opacity: 1;
-}
-
+/* MOBILE SWITCH */
 @media (max-width: 600px){
   .switch {
     position: static;
     margin-top: 0 auto;
     transform: translateY(-14px);
   }
-}
-
-/* ========================================
-   BOTÓN CREAR TICKET (CUSTOM UI)
-======================================== */
-
-.btn-crear {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  padding: 10px 16px;
-  border-radius: 10px;
-
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  color: #fff;
-
-  border: none;
-  cursor: pointer;
-
-  font-weight: 500;
-  letter-spacing: 0.3px;
-
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-
-  transition: all 0.2s ease;
-}
-
-.btn-crear:hover {
-   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4),
-               0 4px 10px rgba(0, 0, 0, 0.25);
-}
-
-.btn-crear i {
-  font-size: 16px;
-}
-
-/* Dark mode */
-body.dark .btn-crear {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
 }
