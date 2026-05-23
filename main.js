@@ -1,28 +1,5 @@
-/* 
-===============================================================================
- KANBAN BOARD INTERACTIVO
--------------------------------------------------------------------------------
- Este archivo contiene toda la lógica del tablero Kanban.
- Funcionalidades principales:
- - Creación y eliminación de tickets
- - Drag & Drop entre columnas
- - Reglas de flujo (restricciones de movimiento)
- - Límite de tickets en "In Progress"
- - Filtro por prioridad
- - Contadores automáticos por columna
- - Persistencia de datos con LocalStorage
- - Modo oscuro persistente
-===============================================================================
-*/
-
-/* ==========================================================================
-   VARIABLES GLOBALES Y CONFIGURACIÓN INICIAL
-   ========================================================================== */
-
-// Contador incremental para asignar IDs únicos a los tickets
 let contador = 1;
 
-// Referencia temporal al ticket que está siendo arrastrado
 let draggedTicket = null;
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -30,37 +7,27 @@ window.addEventListener("DOMContentLoaded", () => {
   actualizarBotonBorrar();
 });
 
-
-/* ==========================================================================
-   CREACIÓN DE TICKETS
-   ========================================================================== */
-
 function crearTicket() 
 {
-  // Obtiene los valores del formulario
   const titulo = document.getElementById("titulo").value;
   const prioridad = document.getElementById("prioridad").value;
 
-  // Validación: no permitir títulos vacíos
   if (!titulo.trim()) 
   {
     mostrarAdvertencia("Ingresa un título para el ticket");
     return;
   }
 
-  // Crea el elemento visual del ticket
   const ticket = document.createElement("div");
   ticket.classList.add("ticket");
   ticket.setAttribute("draggable", "true");
   ticket.id = "ticket" + contador++;
 
-  // Asigna clase CSS según la prioridad
   let prioridadClase = "";
   if (prioridad === "High") prioridadClase = "priority-alta";
   if (prioridad === "Medium") prioridadClase = "priority-media";
   if (prioridad === "Low") prioridadClase = "priority-baja";
 
-  // Estructura interna del ticket
   ticket.innerHTML = 
   `
     <p><strong>#${contador - 1}</strong> – ${titulo}</p>
@@ -68,25 +35,17 @@ function crearTicket()
     <button class="delete-btn" onclick="eliminarTicket('${ticket.id}')">×</button>
   `;
 
-  // Eventos necesarios para Drag & Drop
   ticket.addEventListener("dragstart", dragStart);
   ticket.addEventListener("dragend", dragEnd);
 
-  // Inserta el ticket en la columna "To Do"
   document.getElementById("todo").appendChild(ticket);
 
-  // Limpia el campo de texto
   document.getElementById("titulo").value = "";
 
-  // Actualiza UI y persistencia
   actualizarContadores();
   guardarEnLocalStorage();
   actualizarBotonBorrar();
 }
-
-/* ==========================================================================
-   ELIMINACIÓN DE TICKETS
-   ========================================================================== */
 
 function eliminarTicket(id) 
 {
@@ -98,26 +57,18 @@ function eliminarTicket(id)
   actualizarBotonBorrar();
 }
 
-/* ==========================================================================
-   DRAG & DROP – EVENTOS DEL TICKET
-   ========================================================================== */
-
-// Se ejecuta cuando comienza el arrastre
 function dragStart() 
 {
   draggedTicket = this;
 
-  // Se oculta temporalmente para mejorar la experiencia visual
   setTimeout(() => this.style.display = "none", 0);
 }
 
-// Se ejecuta cuando termina el arrastre
 function dragEnd() 
 {
   draggedTicket.style.display = "block";
   draggedTicket = null;
 
-  // Limpia efectos visuales en columnas
   document.querySelectorAll(".column")
     .forEach(col => col.classList.remove("highlight"));
 
@@ -125,36 +76,23 @@ function dragEnd()
   guardarEnLocalStorage();
 }
 
-/* ==========================================================================
-   DRAG & DROP – EVENTOS DE LAS COLUMNAS
-   ========================================================================== */
-
-// Permite que la columna acepte elementos
 function dragOver(e) {
   e.preventDefault(); 
 }
 
-// Resalta la columna al entrar
 function dragEnter() {
   this.classList.add("highlight");
 }
 
-// Quita el resaltado al salir
 function dragLeave() {
   this.classList.remove("highlight");
 }
 
-/* ==========================================================================
-   LÓGICA DE DROP Y REGLAS DEL FLUJO KANBAN
-   ========================================================================== */
-
 function drop() 
 {
-  // Identifica columnas de origen y destino
   const sourceColumn = draggedTicket.parentElement.id;
   const targetColumn = this.id;
 
-  // Regla: No permitir To Do → Done directamente
   if (sourceColumn === "todo" && targetColumn === "done") 
   {
     mostrarAdvertencia(
@@ -164,7 +102,6 @@ function drop()
     return;
   }
 
-  // Regla: No permitir Done → To Do
   if (sourceColumn === "done" && targetColumn === "todo") 
   {
     mostrarAdvertencia("No puedes regresar un ticket de 'Done' a 'To Do'.");
@@ -172,7 +109,6 @@ function drop()
     return;
   }
 
-  // Regla: Límite máximo de 5 tickets en In Progress
   if (targetColumn === "inprogress") 
   {
     const inProgressCount = this.querySelectorAll(".ticket").length;
@@ -183,7 +119,6 @@ function drop()
     }
   }
 
-  // Regla: No permitir regresar de Done → In Progress
   if (sourceColumn === "done" && targetColumn === "inprogress") 
   {
     mostrarAdvertencia(
@@ -193,17 +128,12 @@ function drop()
     return;
   }
 
-  // Movimiento permitido
   this.appendChild(draggedTicket);
   this.classList.remove("highlight");
 
   actualizarContadores();
   guardarEnLocalStorage();
 }
-
-/* ==========================================================================
-   FILTRADO DE TICKETS POR PRIORIDAD
-   ========================================================================== */
 
 function aplicarFiltro() 
 {
@@ -223,10 +153,6 @@ function aplicarFiltro()
   actualizarContadores();
 }
 
-/* ==========================================================================
-   CONTADORES DE TICKETS POR COLUMNA
-   ========================================================================== */
-
 function actualizarContadores() 
 {
   const columnas = ["todo", "inprogress", "done"];
@@ -236,15 +162,10 @@ function actualizarContadores()
     const cantidad = columna.querySelectorAll(".ticket").length;
     const titulo = columna.querySelector("h2");
 
-    // Mantiene el emoji y texto original del encabezado
     const baseTexto = titulo.textContent.split("(")[0].trim();
     titulo.textContent = `${baseTexto} (${cantidad})`;
   });
 }
-
-/* ==========================================================================  
-   VISIBILIDAD DEL BOTÓN BORRAR TODO
-========================================================================== */
 
 function actualizarBotonBorrar() 
 {
@@ -262,10 +183,6 @@ function actualizarBotonBorrar()
   }
 }
 
-/* ==========================================================================
-   MENSAJES Y ADVERTENCIAS PERSONALIZADAS
-   ========================================================================== */
-
 function mostrarMensajeLimite() 
 {
   const limitMessage = document.getElementById("limitMessage");
@@ -281,12 +198,9 @@ function mostrarAdvertencia(texto)
 {
   let advertencia = document.getElementById("customWarning");
 
-  // Crea el elemento solo si no existe
   if (!advertencia) {
     advertencia = document.createElement("div");
     advertencia.id = "customWarning";
-
-    // Estilos inline para mensaje flotante
     advertencia.style.position = "fixed";
     advertencia.style.top = "20px";
     advertencia.style.left = "50%";
@@ -320,10 +234,6 @@ function mostrarAdvertencia(texto)
     }, 500);
   }, 2500);
 }
-
-/* ==========================================================================
-   LOCAL STORAGE – GUARDADO Y CARGA DE ESTADO
-   ========================================================================== */
 
 function guardarEnLocalStorage() 
 {
@@ -382,10 +292,6 @@ function cargarDesdeLocalStorage()
   actualizarBotonBorrar();
 }
 
-/* ==========================================================================
-   ASIGNACIÓN DE EVENTOS A LAS COLUMNAS
-   ========================================================================== */
-
 const columns = document.querySelectorAll(".column");
 
 columns.forEach(col => {
@@ -395,9 +301,6 @@ columns.forEach(col => {
   col.addEventListener("drop", drop);
 });
 
-/* ==========================================================================
-   BORRADO TOTAL DEL TABLERO
-   ========================================================================== */
 
 function borrarTodo() 
 {
@@ -423,9 +326,6 @@ function borrarTodo()
   );
 }
 
-/* ==========================================================================
-   CONFIRMACIÓN PERSONALIZADA
-   ========================================================================== */
 
 function mostrarConfirmacionPersonalizada(mensaje, onConfirm) 
 {
@@ -435,7 +335,7 @@ function mostrarConfirmacionPersonalizada(mensaje, onConfirm)
   const contenedor = document.createElement("div");
   contenedor.id = "customConfirm";
 
-  // Estilos del modal
+
   contenedor.style.position = "fixed";
   contenedor.style.top = "50%";
   contenedor.style.left = "50%";
@@ -486,19 +386,14 @@ function mostrarConfirmacionPersonalizada(mensaje, onConfirm)
   document.body.appendChild(contenedor);
 }
 
-/* ==========================================================================
-   DARK MODE – PERSISTENTE CON LOCAL STORAGE
-   ========================================================================== */
 
 const darkModeToggle = document.getElementById("darkModeToggle");
 
-// Cargar estado guardado
 if (localStorage.getItem("darkMode") === "enabled") {
   document.body.classList.add("dark");
   darkModeToggle.checked = true;
 }
 
-// Evento cambio switch
 darkModeToggle.addEventListener("change", () => {
   const isDark = darkModeToggle.checked;
 
